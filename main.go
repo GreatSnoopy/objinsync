@@ -29,7 +29,7 @@ var (
 	FlagS3Endpoint      = ""
 	FlagDisableSSL      = false
 	FlagPullInterval    = time.Second * 5
-  FlagWorkerCount    = 5
+	FlagWorkerCount    = 5
 
 	metricsSyncTime = prometheus.NewGauge(prometheus.GaugeOpts{
 		Namespace: "objinsync",
@@ -108,7 +108,7 @@ func main() {
 			}
 			puller.DisableSSL = FlagDisableSSL
 			puller.S3Endpoint = FlagS3Endpoint
-      puller.WorkerCnt = FlagWorkerCount
+			puller.WorkerCnt = FlagWorkerCount
 			if FlagExclude != nil {
 				puller.AddExcludePatterns(FlagExclude)
 			}
