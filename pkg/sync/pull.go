@@ -103,11 +103,11 @@ type Puller struct {
 	LocalDir   string
 	DisableSSL bool
 	S3Endpoint string
+  WorkerCnt  int
 
 	workingDir  string
 	defaultMode os.FileMode
 	exclude     []string
-	workerCnt   int
 	uidCache    map[string]string
 	uidLock     *sync.Mutex
 	taskQueue   chan DownloadTask
@@ -329,7 +329,7 @@ func (self *Puller) Pull() string {
 
 	// spawn worker goroutines
 	var wg sync.WaitGroup
-	for i := 0; i < self.workerCnt; i++ {
+	for i := 0; i < self.WorkerCnt; i++ {
 		wg.Add(1)
 		go func(id int) {
 			l.Debugf("Worker %d started", id)
@@ -480,7 +480,7 @@ func NewPuller(remoteUri string, localDir string) (*Puller, error) {
 		DisableSSL:  false,
 		workingDir:  filepath.Join(localDir, ".objinsync"),
 		defaultMode: 0664,
-		workerCnt:   5,
+		WorkerCnt:   5,
 		uidCache:    map[string]string{},
 		uidLock:     &sync.Mutex{},
 	}, nil
